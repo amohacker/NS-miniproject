@@ -1,30 +1,20 @@
 from tkinter import *
 from kaartautomaat.logic.Apirequester import *
+from kaartautomaat.logic.getCode import *
 
 def Start():
 
-    def toonHoofdframe():
-        unloaddepartures()
-        departureInformatieframe.pack_forget()
-        #reisinfoselectframe.pack_forget()
-        hooftframe.pack()
-
-    #    def toonInfoSubframe():
-    #        hooftframe.pack_forget()
-    #        reisinfoselectframe.pack()
-
     def toonDepartureframe():
-        #reisinfoselectframe.pack_forget()
-        hooftframe.pack_forget()
         loaddepartures()
         departureInformatieframe.pack()
 
     def veranderStation():
-        locatie = departurelocatieinvoer.get()
+        naam = departurelocatieinvoer.get()
         departureframe.pack_forget()
         unloaddepartures()
         departureframe.pack()
-        loaddepartures(locatie)
+        code = getCode(naam)
+        loaddepartures(code)
 
     def unloaddepartures():
         i = 0
@@ -41,29 +31,10 @@ def Start():
 
     root = Tk()
 
-    hooftframe = Frame(master=root, background='yellow')
-    hooftframe.pack(fill="both", expand=True)
-    hooftbutton1 = Button(master=hooftframe, text="Kaarten bestellen", background="blue", foreground="white")
-    hooftbutton1.pack(side=LEFT, pady=60, padx=4)
-    hooftbutton2 = Button(master=hooftframe, text="Bestelling ophalen", background="blue", foreground="white")
-    hooftbutton2.pack(side=LEFT, pady=60, padx=4)
-    hooftbutton3 = Button(master=hooftframe, text="Opwaarderen", background="blue", foreground="white")
-    hooftbutton3.pack(side=LEFT, pady=60, padx=4)
-    hooftbutton4 = Button(master=hooftframe, text="Reisinformatie", background="blue", foreground="white", command=toonDepartureframe)
-    hooftbutton4.pack(side=LEFT, pady=60, padx=4)
-
-    #eventueel frame om verschillende soorten informatie te selecteren
-    #reisinfoselectframe = Frame(master=root, background='yellow')
-    #reisinfoselectframe.pack(fill="both", expand=True)
-    #selectbutton1 = Button(master=reisinfoselectframe, text="Vertrektijden", background="blue", foreground="white", command=toonDepartureframe)
-    #selectbutton1.pack(side=TOP, pady=4, padx=60)
-
     departureInformatieframe = Frame(master=root)
     departureInformatieframe.pack(fill="both", expand=True)
     departuremenubarframe = Frame(master=departureInformatieframe)
     departuremenubarframe.pack(fill="x", expand=True)
-    departureterugknop = Button(master=departuremenubarframe, text="Terug", background="blue", foreground="white", command=toonHoofdframe)
-    departureterugknop.pack(side=LEFT, pady=4, padx=4)
     departureconfirmknop = Button(master=departuremenubarframe, text="OK", background="blue", foreground="white", command=veranderStation) #Misschien wisselen naar dictionarys per scherm met gui items
     departureconfirmknop.pack(side=RIGHT, pady=4, padx=4)
     departurelocatieinvoer = Entry(master=departuremenubarframe, width=20)
@@ -107,5 +78,5 @@ def Start():
             i += 1
 
 
-    toonHoofdframe()
+    toonDepartureframe()
     root.mainloop()

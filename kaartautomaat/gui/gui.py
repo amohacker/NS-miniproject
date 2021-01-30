@@ -1,4 +1,7 @@
 from tkinter import *
+from tkinter import Label
+from typing import List
+
 from kaartautomaat.logic.Apirequester import *
 from kaartautomaat.logic.getCode import *
 
@@ -18,16 +21,12 @@ def Start():
 
     def unloaddepartures():
         i = 0
-        while i < len(departurelijst)-1:
-            for i2 in departurelijst[i+1]:
-                i2.pack_forget()
+        print(departurelijst)
+        for i in departurelijst:
+            for i2 in i:
                 i2.destroy()
-            departurelijst.clear()
-            i += 1
         for i in departurebackgrounds:
-            i.pack_forget()
             i.destroy()
-        departurebackgrounds.clear()
 
     root = Tk()
 
@@ -42,22 +41,25 @@ def Start():
     departurelocatieinvoer.pack(side=RIGHT, pady=4, padx=4)
     departureframe = Frame(master=departureInformatieframe)
     departureframe.pack(fill="both", expand=True)
-    departurelijst = []
+    departurelijst: List[List[Label]] = []
     departurebackgrounds = []
 
     def loaddepartures(station=huidigStation()):
-        departurebackgrounds = [Frame(master=departureframe, bg='cyan', width='600', height='30')]
+        departurebackgrounds.clear()
+        departurebackgrounds.append(Frame(master=departureframe, bg='cyan', width='600', height='30'))
         departurebackgrounds[0].grid(row=0, column=0, columnspan=4)
-        departurelijst = [[
+        departurelijst.clear()
+        departurelijst.append([
             Label(master=departureframe, text='Vertrek', background='cyan'),
             Label(master=departureframe, text='Naar', background='cyan'),
             Label(master=departureframe, text='Spoor', background='cyan'),
-            Label(master=departureframe, text='Trein', background='cyan')]]
+            Label(master=departureframe, text='Trein', background='cyan')])
         departurelijst[0][0].grid(row=0, column=0, pady=4, padx=10)
         departurelijst[0][1].grid(row=0, column=1, pady=4, padx=10)
         departurelijst[0][2].grid(row=0, column=2, pady=4, padx=10)
         departurelijst[0][3].grid(row=0, column=3, pady=4, padx=10)
         departures = getDepartures(station)
+        print(departurelijst)
         i = 1
         for departure in departures:
             if i%2 == 0:
@@ -72,11 +74,11 @@ def Start():
                                    Label(master=departureframe, background=colour, text=departure['spoor']),
                                    Label(master=departureframe, background=colour, text=departure['type'])])
             i2 = 0
+
             for x in departurelijst[i]:
                 x.grid(row=i, column=i2, pady=4, padx=10)
                 i2 +=1
             i += 1
-
 
     toonDepartureframe()
     root.mainloop()

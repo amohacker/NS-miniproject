@@ -59,7 +59,6 @@ def Start():
         departurelijst[0][2].grid(row=0, column=2, pady=4, padx=10)
         departurelijst[0][3].grid(row=0, column=3, pady=4, padx=10)
         departures = getDepartures(station)
-        print(departurelijst)
         i = 1
         for departure in departures:
             if i%2 == 0:

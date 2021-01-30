@@ -21,7 +21,6 @@ def Start():
 
     def unloaddepartures():
         i = 0
-        print(departurelijst)
         for i in departurelijst:
             for i2 in i:
                 i2.destroy()

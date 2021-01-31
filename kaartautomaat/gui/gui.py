@@ -20,7 +20,6 @@ def Start():
         loaddepartures(code)
 
     def unloaddepartures():
-        i = 0
         for i in departurelijst:
             for i2 in i:
                 i2.destroy()
